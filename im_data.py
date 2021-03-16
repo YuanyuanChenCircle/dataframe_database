@@ -13,7 +13,6 @@ from sqlalchemy import create_engine
 
 
 # 把数据保存到数据库中
-
 # data = pd.read_csv('./data_label1.csv')
 def mapping_df_types(df):
     dtypedict = {}
@@ -52,21 +51,12 @@ conn = create_engine('mysql+pymysql://' + user_ +':'+ pswd_ + '@localhost:3306/'
 # #写入数据，table_name为表名，‘replace’表示如果同名表存在就替换掉
 dtypedict = mapping_df_types(data1)
 
-# print(dtypedict)
-# dtypedict['antecedents'] = TEXT(length=500)
-# print(rules.shape)
-# print(rules.iloc[0,:])
 
-# print(type(rules.iloc[0:2,:]))
 
 data1 = data1.rename_axis('index').reset_index()
 
 
 for i in range(0, data1.shape[0]):
     de = data1.iloc[i:i+1,:]
-    # pd.io.sql.to_sql(rules, "table_name", conn, if_exists='replace')
     de.to_sql(name=tablename_, con=conn, if_exists='append', index=False, dtype=dtypedict)
 
-# de = rules.iloc[70:,:]
-# # pd.io.sql.to_sql(rules, "table_name", conn, if_exists='replace')
-# de.to_sql(name=tablename_, con=conn, if_exists='append', index=False, dtype=dtypedict)
